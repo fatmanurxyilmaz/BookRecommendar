@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>"Book Recommendations{{ reader_type }}"</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin: 0; padding: 0; background-color: #f0f2f5; color: #1c1e21; }
+        .header { background-color: #4a76a8; color: white; padding: 20px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
+        .book-card {
+            background-color: #fff; border: 1px solid #dddfe2; border-radius: 8px; margin-bottom: 20px;
+            padding: 15px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        @media (min-width: 600px) {
+            .book-card { flex-direction: row; }
+        }
+        .book-cover { text-align: center; margin-bottom:15px;}
+        .book-cover img { max-width: 120px; height: auto; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .book-details { padding-left: 0; }
+         @media (min-width: 600px) {
+            .book-cover { margin-right: 20px; margin-bottom:0px; }
+            .book-details { padding-left: 20px; flex: 1; }
+        }
+        .book-details h3 { margin-top: 0; margin-bottom: 5px; color: #050505; font-size: 18px; }
+        .book-details p { font-size: 14px; margin-bottom: 8px; line-height: 1.5; }
+        .book-details strong { color: #555; }
+        .no-books { text-align: center; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .actions { text-align: center; margin-top: 30px; margin-bottom: 30px; }
+        .button-link {
+            background-color: #1877f2; color: white; padding: 10px 25px; text-decoration: none;
+            border-radius: 6px; font-size: 16px; transition: background-color 0.3s;
+        }
+        .button-link:hover { background-color: #166fe5; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>"{{ reader_type }}" Book Recommendations for Your Reader Type</h1>
+    </div>
+
+    <div class="container">
+        {% if books %}
+            {% for book in books %}
+            <div class="book-card">
+                {% if book.thumbnail %}
+                <div class="book-cover">
+                    <img src="{{ book.thumbnail }}" alt="{{ book.title }} Kapak Resmi">
+                </div>
+                {% endif %}
+                <div class="book-details">
+                    <h3>{{ book.title }}</h3>
+                    <p><strong>Author:</strong> {{ book.author }}</p>
+                    <p><strong>Description:</strong> {{ book.description|truncate(300, True) if book.description else 'Açıklama bulunamadı.' }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-books">
+                <p>Unfortunately, book recommendations could not be made for this reader type.</p>
+                <p>Make sure your API is working correctly.</p>
+            </div>
+        {% endif %}
+
+        <div class="actions">
+            <a href="{{ url_for('home') }}" class="button-link">Take the test again.</a>
+        </div>
+    </div>
+</body>
+</html>

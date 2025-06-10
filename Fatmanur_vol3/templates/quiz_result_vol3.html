@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Result - Your Reader Type</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; padding: 20px; }
+        .result-card { border: 1px solid #ccc; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        h1, h2 { color: #333; }
+        b { color: #555; }
+    </style>
+</head>
+<body>
+    <h1>Your Reader Type Results</h1>
+
+    <div class="result-card">
+        <h2>Top 3 Matches:</h2>
+        <ol>
+            {% for type, score in top_types %}
+                <li><b>{{ reader_type_info[type].name | default(type) }}</b>: {{ score }} Points</li>
+            {% endfor %}
+        </ol>
+    </div>
+
+    {% if top_types %}
+        {% set top_type_key = top_types[0][0] %}
+        {% set top_type_data = reader_type_info[top_type_key] %}
+
+        <div class="result-card">
+            <h2>Your Dominant Reader Type: {{ top_type_data.name }}</h2>
+
+            <p><i>"{{ top_type_data.description }}"</i></p>
+            <p><b>Preferred Genres:</b> {{ top_type_data.preferred_genres|join(', ') }}</p>
+
+            <a href="/recommendations?type={{ top_type_key }}">
+                <button style="padding: 10px 15px; font-size: 16px; cursor: pointer;">
+                    Get Book Recommendations for {{ top_type_data.name }}
+                </button>
+            </a>
+        </div>
+
+    {% else %}
+        <p>No results found. Please take the quiz again.</p>
+    {% endif %}
+
+    <br><br>
+    <a href="/quiz">Take the quiz again</a> | <a href="/">Back to Home</a>
+
+</body>
+</html>
