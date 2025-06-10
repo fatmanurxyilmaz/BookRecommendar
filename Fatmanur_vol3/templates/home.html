@@ -1,13 +1,7 @@
-<!-- templates/home.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Book Quiz</title>
-</head>
-<body>
-    <h1>Welcome to the Book Personality Quiz!</h1>
-    <p>Click below to begin:</p>
-    <a href="{{ url_for('quiz') }}">Start the Quiz</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome to Book Guide!</h1>
+    <p>Discover your next favorite book by taking our unique reader type quiz.</p>
+    <a href="{{ url_for('quiz') }}" class="button-link">Take the Test Now!</a>
+{% endblock %}
